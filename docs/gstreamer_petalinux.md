@@ -1,0 +1,1 @@
+# petalinux-config -c rootfs

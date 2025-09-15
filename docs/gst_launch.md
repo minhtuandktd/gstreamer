@@ -1,11 +1,17 @@
 # 1. Two Laptop Ubuntu
-Laptop A: 192.168.30.3
+## 1.1 Only video
+Laptop A:
 ###
 ```bash
+gst-launch-1.0 filesrc location=/home/tuannm/test_video.mp4 ! qtdemux name=demux demux.video_0 ! queue ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink host=ip_laptop_a port=5000
 ```
-Laptop A: 192.168.30.7
+Laptop B:
+###
+```bash
+gst-launch-1.0 udpsrc port=5000 caps="application/x-rtp, media=video, encoding-name=H264, payload=96" ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink
+```
 # 2. ZynqMP and Laptop Ubuntu
-## 2.1 Only Video stream
+## 2.1 Only video stream
 ZynqMP: 192.168.30.22 sender a MP4 file
 ###
 ```bash

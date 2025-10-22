@@ -22,6 +22,20 @@ Laptop: 192.168.30.3 receiver and display
 ```bash
 gst-launch-1.0 udpsrc port=5000 caps="application/x-rtp,media=video,encoding-name=H264,payload=96" ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink
 ```
+
+### H265 
+ZynqMP: 192.168.30.22 sender a MP4 file with H265
+###
+```bash
+gst-launch-1.0 filesrc location=/tmp/output_h265.mp4 ! qtdemux name=demux demux.video_0 ! queue ! h265parse ! rtph265pay config-interval=1 pt=96 ! udpsink host=192.168.30.3 port=5000
+```
+Laptop: 192.168.30.3 receiver and display
+###
+```bash
+gst-launch-1.0 udpsrc port=5000 caps="application/x-rtp,media=video,encoding-name=H265,payload=96" ! rtph265depay ! avdec_h265 ! videoconvert ! autovideosink
+```
+
+### Laptop -> Zynq
 Laptop: 192.168.30.3 sender camera
 ###
 ```bash

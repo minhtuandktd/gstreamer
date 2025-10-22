@@ -3,7 +3,7 @@
 Create module v4l2loopback
 
 ```bash
-cd project-spec/meta-user/recipes-module
+cd project-spec/meta-user/recipes-modules
 petalinux-create -t modules -n v4l2loopback --enable
 ```
 This create file: 
@@ -38,15 +38,15 @@ petalinux-config -c rootfs
 ```
 Location: -> Filesystem Packages -> libs -> ffmpeg
 # 3. Flash on board
-Due to setup autoload: KERNEL_MODULE_AUTOLOAD += "v4l2loopback"
-We already have: /dev/video0
+Due to setup autoload: KERNEL_MODULE_AUTOLOAD += "v4l2loopback"<br>
+We already have: /dev/video0<br>
 If you want create a new device:
 ```
 rmmod v4l2loopback
 modprobe v4l2loopback devices=1 video_nr=3 card_label="VirtualCam" debug=1
 dmesg | tail -n 50
 ```
-This create: /dev/video3
+This create: /dev/video3<br>
 Create script: stream_yuv.sh
 ```bash
 #!/bin/bash

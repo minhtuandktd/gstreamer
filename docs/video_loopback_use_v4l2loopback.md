@@ -87,13 +87,15 @@ nohup /tmp/stream_yuv.sh &
 ```
 Stream video from /dev/video0 encode h264 and transfer to PC
 ```bash
-gst-launch-1.0 v4l2src device=/dev/video0 io-mode=2 ! \
-  "video/x-raw,format=I420,width=1280,height=720,framerate=30/1" ! \
-  x264enc tune=zerolatency bitrate=2000 speed-preset=ultrafast ! \
-  rtph264pay config-interval=1 pt=96 ! \
-  udpsink host=192.168.30.3 port=5000
+gst-launch-1.0 v4l2src device=/dev/video0 io-mode=2 ! \ 
+"video/x-raw,format=I420,width=1280,height=720,framerate=30/1" ! \ 
+x264enc tune=zerolatency bitrate=2000 speed-preset=ultrafast ! \ 
+rtph264pay config-interval=1 pt=96 ! \ 
+udpsink host=192.168.30.3 port=5000
 ```
 On PC receive:
 ```bash
-gst-launch-1.0 udpsrc port=5000 caps="application/x-rtp, media=video, encoding-name=H264, payload=96" ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink
+gst-launch-1.0 udpsrc port=5000 \
+caps="application/x-rtp, media=video, encoding-name=H264, payload=96" ! \
+rtph264depay ! h264parse ! avdec_h264 ! autovideosink sync=false
 ```
